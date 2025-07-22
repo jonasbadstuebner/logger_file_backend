@@ -114,7 +114,7 @@ defmodule LoggerFileBackend do
   defp rename_file(path, keep) do
     File.rm("#{path}.#{keep}")
 
-    Enum.each((keep - 1)..1, fn x -> File.rename("#{path}.#{x}", "#{path}.#{x + 1}") end)
+    Enum.each((keep - 1)..1//-1, fn x -> File.rename("#{path}.#{x}", "#{path}.#{x + 1}") end)
 
     case File.rename(path, "#{path}.1") do
       :ok -> false
