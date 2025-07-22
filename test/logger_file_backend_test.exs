@@ -225,7 +225,7 @@ defmodule LoggerFileBackendTest do
   end
 
   defp has_open({:unix, _}, path) do
-    case System.cmd("lsof", [path]) do
+    case System.cmd("lsof", ["-w", path]) do
       {output, 0} ->
         output =~ System.pid()
 
