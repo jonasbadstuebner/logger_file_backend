@@ -95,6 +95,16 @@ defmodule LoggerFileBackendTest do
     assert log(context) =~ "hello [debug]"
   end
 
+  test "can configure custom formatter", context do
+    formatter = LoggerJSON.Formatters.Basic.new(metadata: [:domain, :erl_level, :module])
+    config(context, formatter: formatter)
+
+    Logger.debug("hello")
+
+    assert log(context) =~
+             ~r/{"message":"hello","metadata":{"domain":\["elixir"\],"erl_level":"debug","module":"Elixir\.LoggerFileBackendTest"},"severity":"debug","time":"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z"}\n/
+  end
+
   test "can configure metadata", context do
     config(context, format: "$metadata$message\n", metadata: [:user_id, :auth])
 
